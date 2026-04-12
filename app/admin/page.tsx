@@ -36,6 +36,10 @@ function ProjectRow({ p, onEdit, onDelete }: { p: Project, onEdit: (project: Pro
             <h3 className="font-bold text-white text-lg truncate">{p.title}</h3>
             <p className="text-xs text-blue-300 bg-blue-900/30 inline-block px-2 py-0.5 rounded">{p.category}</p>
             {p.shortDesc && <p className="text-gray-400 text-xs mt-2 line-clamp-2">{p.shortDesc}</p>}
+            {/* عرض عدد الفيديوهات كمعلومة إضافية */}
+            {p.videoUrls && p.videoUrls.length > 0 && (
+                <p className="text-[10px] text-purple-400 mt-1">📹 {p.videoUrls.length} فيديو</p>
+            )}
           </div>
        </div>
        <div className="flex gap-2 w-full md:w-auto justify-end">
@@ -56,7 +60,7 @@ export default function AdminPage() {
   const [shortDesc, setShortDesc] = useState(""); 
   const [category, setCategory] = useState("");
   const [imageInputs, setImageInputs] = useState<string[]>([""]); 
-  const [videoInputs, setVideoInputs] = useState<string[]>([""]);
+  const [videoInputs, setVideoInputs] = useState<string[]>([""]); // ✅ موجود مسبقاً
   const [downloadUrl, setDownloadUrl] = useState("");
   const [projects, setProjects] = useState<Project[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -67,7 +71,6 @@ export default function AdminPage() {
   const [editingPageSlug, setEditingPageSlug] = useState<string | null>(null);
   const [pageTitle, setPageTitle] = useState("");
   const [pageContent, setPageContent] = useState("");
-  // ✅ إضافة حقل جديد لـ Slug
   const [pageSlug, setPageSlug] = useState(""); 
 
   // --- حالة الأكواد ---
@@ -126,7 +129,6 @@ export default function AdminPage() {
       const data = docSnap.data();
       setPageTitle(data.title || "");
       setPageContent(data.content || "");
-      // ✅ عند التعديل، نملأ حقل الـ slug بالقيمة الموجودة (الـ ID)
       setPageSlug(slug); 
       setEditingPageSlug(slug);
       setActiveTab("pages");
@@ -134,13 +136,12 @@ export default function AdminPage() {
     }
   };
 
-  // دالة مساعدة لتنظيف الـ Slug (تحويل المسافات لشرطات وحذف الرموز)
   const cleanSlug = (text: string) => {
     return text
       .trim()
       .toLowerCase()
-      .replace(/\s+/g, '-')           // مسافات -> شرطات
-      .replace(/[^\w-]+/g, '')        // حذف أي رموز غير حروف/أرقام
+      .replace(/\s+/g, '-')           
+      .replace(/[^\w-]+/g, '')        
       .replace(/^-+/, '')             
       .replace(/-+$/, '');            
   };
@@ -154,17 +155,13 @@ export default function AdminPage() {
     }
 
     try {
-      // ✅ المنطق الجديد: نستخدم ما كتبته في حقل Slug، وإذا كان فارغاً نولده من العنوان
       let slugToUse = pageSlug.trim();
       
       if (!slugToUse && !editingPageSlug) {
-        // لو حقل السلاج فارغ وهذه صفحة جديدة، نولد من العنوان (كاحتياطي)
         slugToUse = cleanSlug(pageTitle);
       } else if (!slugToUse && editingPageSlug) {
-        // لو حقل السلاج فارغ ونحن نعدل، نحافظ على القديم
         slugToUse = editingPageSlug;
       } else {
-        // لو كتبنا شيئاً في حقل السلاج، ننظفه ونستخدمه
         slugToUse = cleanSlug(slugToUse);
       }
 
@@ -178,7 +175,7 @@ export default function AdminPage() {
       alert("تم حفظ الصفحة بنجاح!");
       setPageTitle(""); 
       setPageContent(""); 
-      setPageSlug(""); // تصفير الحقل الجديد
+      setPageSlug(""); 
       setEditingPageSlug(null);
       fetchPages();
     } catch (error) {
@@ -200,6 +197,7 @@ export default function AdminPage() {
     setImageInputs(newInputs);
   };
   
+  // ✅ دوال الفيديو (كانت موجودة ولكن بدون واجهة)
   const addVideoInput = () => setVideoInputs([...videoInputs, ""]);
   const removeVideoInput = (index: number) => {
     const newInputs = videoInputs.filter((_, i) => i !== index);
@@ -219,7 +217,7 @@ export default function AdminPage() {
     setDownloadUrl(project.downloadUrl);
     setShortDesc(project.shortDesc || ""); 
     setImageInputs(project.images.length > 0 ? project.images : [""]);
-    setVideoInputs(project.videoUrls.length > 0 ? project.videoUrls : [""]);
+    setVideoInputs(project.videoUrls.length > 0 ? project.videoUrls : [""]); // تعبئة الفيديوهات عند التعديل
     setEditingId(project.id); 
     setActiveTab("projects");
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -235,7 +233,7 @@ export default function AdminPage() {
     e.preventDefault(); 
     setLoading(true);
     const imagesArray = imageInputs.filter(link => link.trim() !== "");
-    const videosArray = videoInputs.filter(link => link.trim() !== "");
+    const videosArray = videoInputs.filter(link => link.trim() !== ""); // ✅ تصفية الروابط الفارغة
     
     const dataPayload = { 
       title, 
@@ -243,7 +241,7 @@ export default function AdminPage() {
       shortDesc, 
       category, 
       images: imagesArray, 
-      videoUrls: videosArray, 
+      videoUrls: videosArray, // ✅ إرسال مصفوفة الفيديوهات
       downloadUrl, 
       updatedAt: new Date() 
     };
@@ -271,7 +269,7 @@ export default function AdminPage() {
     setShortDesc(""); 
     setCategory(""); 
     setImageInputs([""]); 
-    setVideoInputs([""]); 
+    setVideoInputs([""]); // ✅ تصفير الفيديوهات
     setDownloadUrl(""); 
     setEditingId(null); 
   };
@@ -337,6 +335,7 @@ export default function AdminPage() {
                   <input type="text" placeholder="مثال: تعليمي، مالي..." value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-3 rounded bg-gray-900 border border-gray-700 text-white focus:border-blue-500 outline-none" required />
                 </div>
                 
+                {/* قسم الصور */}
                 <div>
                   <label className="block text-xs text-gray-400 mb-1">روابط الصور</label>
                   <div className="space-y-2">
@@ -347,6 +346,28 @@ export default function AdminPage() {
                       </div>
                     ))}
                     <button type="button" onClick={addImageInput} className="text-xs text-blue-400 hover:text-blue-300 mt-1">+ إضافة صورة أخرى</button>
+                  </div>
+                </div>
+
+                {/* ✅ قسم الفيديوهات (المضاف حديثاً) */}
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1">روابط الفيديوهات (YouTube, MP4)</label>
+                  <div className="space-y-2">
+                    {videoInputs.map((url, i) => (
+                      <div key={i} className="flex gap-2">
+                        <input 
+                          type="url" 
+                          value={url} 
+                          onChange={(e) => handleVideoChange(i, e.target.value)} 
+                          placeholder="رابط الفيديو..." 
+                          className="flex-grow p-2 rounded bg-gray-900 border border-gray-700 text-white text-xs" 
+                        />
+                        {videoInputs.length > 1 && (
+                          <button type="button" onClick={() => removeVideoInput(i)} className="text-red-400 px-2 text-xs hover:text-red-300">حذف</button>
+                        )}
+                      </div>
+                    ))}
+                    <button type="button" onClick={addVideoInput} className="text-xs text-purple-400 hover:text-purple-300 mt-1">+ إضافة فيديو آخر</button>
                   </div>
                 </div>
 
@@ -373,7 +394,7 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* 3. محتوى تبويب الصفحات (المعدل) */}
+        {/* 3. محتوى تبويب الصفحات */}
         {activeTab === "pages" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-4 bg-gray-800 p-6 rounded-2xl border border-gray-700 h-fit">
@@ -393,14 +414,13 @@ export default function AdminPage() {
                   />
                 </div>
 
-                {/* ✅ الحقل الجديد: اسم الرابط (Slug) */}
                 <div>
                   <label className="block text-xs text-blue-400 mb-1 font-bold">اسم الرابط (Slug) - بالإنجليزي *</label>
                   <input 
                     type="text" 
                     placeholder="مثال: clients أو about-us" 
                     value={pageSlug} 
-                    onChange={(e) => setPageSlug(e.target.value.replace(/\s+/g, '-').toLowerCase())} // يتحول لصغير ومسافات لشرطات تلقائياً
+                    onChange={(e) => setPageSlug(e.target.value.replace(/\s+/g, '-').toLowerCase())} 
                     className="w-full p-3 rounded bg-gray-900 border border-blue-900/50 text-blue-300 font-mono text-sm focus:border-blue-500 outline-none" 
                   />
                   <p className="text-[10px] text-gray-500 mt-1">سيظهر في الرابط هكذا: yoursite.com/page/<span className="text-blue-400">{pageSlug || '...'}</span></p>
