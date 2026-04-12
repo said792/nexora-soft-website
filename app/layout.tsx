@@ -49,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="ar"
-      dir="rtl"
+      dir="rtr"
       className={tajawal.variable}
     >
       <body className="min-h-full flex flex-col font-sans bg-[#0f172a] text-white">
