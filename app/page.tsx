@@ -316,7 +316,7 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold mb-4">تواصل</h4>
               <ul className="space-y-2">
-                <li className="text-gray-400">info@devsoft.com</li>
+                <li className="text-gray-400">saidsadeik879@gmail.com</li>
                 <li className="text-gray-400">+20 123 456 789</li>
               </ul>
             </div>
@@ -360,7 +360,7 @@ export default function Home() {
             {codeError && <div className="bg-red-500/10 border border-red-500 text-red-500 text-xs p-2 rounded mb-3 text-center">{codeError}</div>}
             <div className="flex gap-2">
               <button onClick={handleVerifyCode} className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-bold transition shadow-lg">تحميل</button>
-              <a href="https://wa.me/201000000000" target="_blank" className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-lg font-bold transition shadow-lg flex items-center justify-center gap-2">احصل على كود</a>
+              <a href="https://wa.me/01094222737" target="_blank" className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-lg font-bold transition shadow-lg flex items-center justify-center gap-2">احصل على كود</a>
             </div>
           </div>
         </div>
