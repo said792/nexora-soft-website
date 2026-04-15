@@ -250,7 +250,7 @@ export default function Home() {
               className="group px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-full text-lg font-bold transition hover:scale-105 shadow-lg shadow-orange-500/40 flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <span>🎁</span>
-              <span className="relative z-10">هدية مجانية تطبيق حساب</span>
+              <span className="relative z-10">هدية مجانية تطبيق للتعليم الفنى /حساب ارباح رأس المال</span>
             </Link>
 
           </div>
