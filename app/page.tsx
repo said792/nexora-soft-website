@@ -166,7 +166,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-[#0f172a]/70 backdrop-blur-md border-b border-white/5"></div>
         <div className="container mx-auto px-4 max-w-7xl relative">
           <nav className="flex justify-between items-center h-20">
-            {/* ✅ تم تعديل اللوجو هنا: أضفنا الصورة بجانب الاسم */}
             <Link href="/" className="flex items-center gap-3 transform hover:scale-105 transition duration-300">
               <img 
                 src="https://i.postimg.cc/Dy7mjvGn/Futuristic-NEXORA-SOFT-logo-design.png" 
@@ -194,31 +193,9 @@ export default function Home() {
               {isAdmin && <Link href="/admin" className="px-4 py-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 rounded-lg text-sm font-bold transition hover:bg-emerald-500/30">لوحة التحكم</Link>}
               
               <Link href="/projects" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-6 py-2.5 rounded-full font-bold transition shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1">تصفح البرامج</Link>
-<Link
-  href="/profits-2026"
-  className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-bold 
-  bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500
-  shadow-lg shadow-blue-500/30
-  transition-all duration-300
-  hover:shadow-blue-500/50 hover:-translate-y-1
-  overflow-hidden"
->
-  {/* Glow Effect */}
-  <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition"></span>
-
-  {/* Icon */}
-  <span className="text-lg">📊</span>
-
-  {/* Text */}
-  <span className="relative z-10">
-    التعليم الفني - توزيع أرباح مشروع رأس المال
-  </span>
-
-  {/* Small Badge */}
-  <span className="relative z-10 ml-2 text-xs bg-white/20 px-2 py-1 rounded-full">
-    2026
-  </span>
-</Link>            </div>
+              
+              {/* --- الزر اللي كان هنا شيلناه حسب طلبك --- */}
+            </div>
 
             <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-white"><svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg></button>
           </nav>
@@ -229,14 +206,7 @@ export default function Home() {
               <Link href="/projects" onClick={() => setIsMobileMenuOpen(false)} className="text-white font-bold text-lg p-2 border-b border-gray-700">تصفح البرامج</Link>
               
               {pages.map((p) => (
-                <Link
-                  key={p.id}
-                  href={`/page/${p.id}`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-white font-bold text-lg p-2 border-b border-gray-700"
-                >
-                  {p.title}
-                </Link>
+                <Link key={p.id} href={`/page/${p.id}`} onClick={() => setIsMobileMenuOpen(false)} className="text-white font-bold text-lg p-2 border-b border-gray-700">{p.title}</Link>
               ))}
 
               {isAdmin && <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)} className="text-emerald-400 font-bold text-lg p-2">لوحة التحكم</Link>}
@@ -262,12 +232,27 @@ export default function Home() {
             نحن نحول الأفكار المعقدة إلى حلول برمجية ذكية، سريعة، ومصممة لتخدم أهدافك بكل احترافية.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center animate-in-up delay-300">
-            <Link href="/projects" className="group relative px-8 py-4 bg-white text-blue-900 font-bold rounded-full text-lg transition hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          {/* --- تم إضافة الزر الجديد هنا --- */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-in-up delay-300">
+            
+            {/* زر استكشف الموقع */}
+            <Link href="/projects" className="group relative px-8 py-4 bg-white text-blue-900 font-bold rounded-full text-lg transition hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)] w-full sm:w-auto">
               استكشف الموقع
               <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:animate-ping"></div>
             </Link>
-            <Link href="/contact" className="px-8 py-4 border-2 border-blue-500/50 text-white rounded-full text-lg font-bold hover:bg-blue-500/20 transition backdrop-blur-sm">طلب مشروعك</Link>
+            
+            {/* زر طلب مشروع */}
+            <Link href="/contact" className="px-8 py-4 border-2 border-blue-500/50 text-white rounded-full text-lg font-bold hover:bg-blue-500/20 transition backdrop-blur-sm w-full sm:w-auto">طلب مشروعك</Link>
+            
+            {/* زر الهدية (الحسوبات) - جديد */}
+            <Link 
+              href="/profits-2026" 
+              className="group px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-full text-lg font-bold transition hover:scale-105 shadow-lg shadow-orange-500/40 flex items-center justify-center gap-2 w-full sm:w-auto"
+            >
+              <span>🎁</span>
+              <span className="relative z-10">هدية مجانية تطبيق حساب</span>
+            </Link>
+
           </div>
 
           <div className="grid grid-cols-3 gap-6 mt-20 max-w-3xl mx-auto animate-in-up delay-200">
@@ -324,7 +309,6 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              {/* ✅ تم تعديل اسم الشركة في الفوتر أيضاً */}
               <div className="text-2xl font-black text-white mb-4">NEXORA SOFT</div>
               <div className="text-lg text-blue-300 mb-4">Building Tomorrow’s Technology</div>
               <p className="text-gray-500 text-sm">نحول أفكارك إلى واقع رقمي ملموس.</p>
